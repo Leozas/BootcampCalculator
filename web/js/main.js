@@ -34,63 +34,123 @@ container
 
                 */
 
-/* GLOBALS */
-//
+/*----------------------------- GLOBALS ------------------------- */
+// divApp initialization
 const divApp = document.getElementById('App')
 
 
-/*
----------------------------- L O G I C -----------------------------------------
-*/
+/*---------------------------- L O G I C -----------------------------------------*/
 
-function operator(){
+function operator() {
 
 }
 // calculate inputs/expression to display 2 
-function calculate(){
+function calculate() {
 
 }
 
-
-
-
-
-
-/*
--------------------------------- U I -----------------------------------------
-*/
+/*-------------------------------- U I -----------------------------------------*/
 
 //render interface, divs, buttons(numbers,operators, misc), populate afterwards
-function renderCalc(){
-   
+function renderCalc() {
+
+    //container and container row and column
+    let containerfluid = document.createElement("div");
+    containerfluid.id = "";
+    containerfluid.className = "container-fluid";
+
+    let containerRow = document.createElement("div");
+    containerRow.id = "";
+    containerRow.className = "row justify-content-center";
+
+    let containerCol = document.createElement("div");
+    containerCol.id = "";
+    containerCol.className = "";
+
     //create calculator rows to populate with buttons
-    for (let i = 0; i < 7; i++)
-        let calcRows = document.createElement("div")
-        calcRows.id = "outputDisplay"
-        calcRows.
-        
-        // populate each row with respectively
-        if (i < 2 ){
+    for (let i = 0; i < 7; i++) {
+        let calcRow = document.createElement("div");
+        calcRow.id = "calcRow"+i;
+        calcRow.className = "row justify-content-center";
 
+        console.log(i)
+        // populate each row with respective elements (forms, btns)
+        if (i < 2) {
+            //make 2 rows of form, one enter, one no enter 
+            for (let j = 0; j < 2; j++) {
+                let formRow = document.createElement("div");
+                formRow.id = "form" + j;
+                formRow.className = "";
+                //BOARD TESTING
+                formRow.innerHTML = ""
+
+                calcRow.appendChild(formRow);
+            
+            }
+
+        } else if (1 < i && i < 6) {
+            //make 5 col for each new row to make divs for btns
+            for (let j = 0; j < 5; j++) {
+                let btnCol = document.createElement('div');
+                btnCol.id = "btn" + j;
+                btnCol.className = "col border btn-primary";
+                //BOARD TESTING
+                btnCol.innerHTML = "test"
+
+                calcRow.appendChild(btnCol);
+                
+            }
+
+        } else if (i == 6) {
+            //on last row only 3 divs, 
+            for (let j = 4; j < 7; j++) {
+                let btnCol = document.createElement('div');
+                btnCol.id = "btn" + j;
+                btnCol.className = "col border btn-primary";
+                //BOARD TESTING
+                btnCol.innerHTML = "test"
+
+                calcRow.appendChild(btnCol);
+            }
         }
+        containerCol.appendChild(calcRow)
 
+    }
+
+    // append everything to divapp
+    containerRow.appendChild(containerCol);
+    containerfluid.appendChild(containerRow);
+    divApp.appendChild(containerfluid);
+
+    //test display rows
+    let outputDisplay = document.getElementById("calcRow1");
+    outputDisplay.innerHTML = "test";
+
+    let inputDisplay = document.getElementById("calcRow2");
+    inputDisplay.innerHTML = "test";
 }
 
 // create all number input buttons 
-function createNumBtns(){
+function createNumBtns() {
+    
+    let num0 = getElementById();
+    .innerHTML = "";
+    .addEventListener('click',)
 
+
+    
 }
 
 // create all operator input buttons 
-function createOpBtns(){
+function createOpBtns() {
 
 }
 
 // create all misc input buttons
-function createMiscBtns(){
+function createMiscBtns() {
 
 }
 
-function init(){
-    renderCalc
+function init() {
+    renderCalc();
 }
