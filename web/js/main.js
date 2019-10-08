@@ -14,7 +14,7 @@ container
                 col - 8 
                 col - 9
                 col - c
-                co; - +/-
+                col - +/-
             row - onclick/btn row 2 - 4, 5, 6, *. /
                 col - 4
                 col - 5
@@ -45,7 +45,7 @@ function operator() {
 
 }
 // calculate inputs/expression to display 2 
-function calculate() {
+function calc() {
 
 }
 
@@ -132,13 +132,39 @@ function renderCalc() {
 
 // create all number input buttons 
 function createNumBtns() {
+   /* 
+    //initialize all number divs
+    let num1 = document.getElementById();
+    let num2 = document.getElementById();
+    let num3 = document.getElementById();
+    let num4 = document.getElementById();
+    let num5 = document.getElementById();
+    let num6 = document.getElementById();
+    let num7 = document.getElementById();
+    let num8 = document.getElementById();
+    let num9 = document.getElementById();
     
-    let num0 = getElementById();
-    .innerHTML = "";
-    .addEventListener('click',)
+    // add onlick event to all numbers
+    let nums = "0123456789"
+    let numarray = [num0, num1, num2, num3, num4, num5, num6, num7, num8, num9];
+    for (let i = 0; i < 9; i++){
+        let num0 = document.getElementById();
+        .addEventListener('click',);
+        numarray[0].innerHTML = "";
+        .addEventListener('click', calc);
 
 
-    
+        // for i < x 
+            //make new unique
+            
+
+    }
+*/
+
+
+
+// loop
+    // let var+i
 }
 
 // create all operator input buttons 
