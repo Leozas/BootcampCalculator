@@ -1,61 +1,127 @@
 //structure = var, then defined func, then overall func
 
 
-/*
-container
-    row 
-        col - calculator column 
-            row - output display
-                row form/textbox
-            row - input display
-                row form/textbox
-            row -
-                container - nums
-                    row - 7 8 9 
-                        col 7
-                        col 8
-                        col 9
-                    row - 4 5 6
-                        col 4
-                        col 5
-                        col 6 
-                    row - 1 2 3
-                        col 1
-                        col 2
-                        col 3
-                    row 0
-                        col 0
-                container misc1
-                    row c +/-
-                        col c
-                        col +/- - onclick/btn row 2 - 4, 5, 6, *. /
-                col - 4
-                col - 5
-                col - 6
-                col - *
-                col - /
-            row - onclick/btn row 3 - 1, 2, 3, +, -
-                col - 1 
-                col - 2
-                col - 3
-                col - +
-                col - -
-            row - onclick/btn row 4 0, ., =
-                col - 0
-                col - .
-                col - =
-
-                */
-
 /*----------------------------- GLOBALS ------------------------- */
 // divApp initialization
-const divApp = document.getElementById('App')
+const divApp = document.getElementById('App');
 
+let numplaceholder = '0';
+
+//numa initialization, used to determine first number to operate on in calculations
+let numA = '0';
+
+//numb initialization
+let numB = '0';
+
+//if operand has been defined, set op state to true so that we more from num a to num b
+let opstate = false
+
+let op = ''
+//operand type
+let optype = { '+': function (a, b) { return a + b }, '-': function (a, b) { return a - b }, '/': function (a, b) { return a * b }, '\xF7': function (a, b) { return a / b } };
+
+// eval state, if equals sign is clicked, eval, if a 2nd op is clicked, eval
+let evalstate = false
+
+let solution = 'nosolyet'
 
 /*---------------------------- L O G I C -----------------------------------------*/
 
+//check what button then once determining, execute desired outcome of button press
 function checkbtn() {
+    switch (this.id[0]) {
+        case "+":
+            numplaceholder = '0'
+            op = '+';
+            opstate = true
 
+
+            break;
+
+        case "-":
+                numplaceholder = '0'
+                op = '-';
+                opstate = true
+
+            break;
+
+        case "*":
+                numplaceholder = '0'
+                op = '*';
+                opstate = true
+            break;
+            
+
+        case "/":
+                numplaceholder = '0'
+                op = '/';
+                opstate = true
+            break;
+
+        case "=":
+
+            break;
+
+        case "c":
+            numplaceholder = '0'
+            numA = '0'
+            numB = '0'
+            solution = ''
+
+
+            break;
+
+        case ".":
+            if (numplaceholder.includes('.') == false){
+                numplaceholder = numplaceholder+'.'
+            }
+
+            display1.innerHTML = numplaceholder + '///' + numA + op + numB + '///' + solution
+
+
+            break;
+
+        case '(':
+
+            break;
+
+        default:
+
+
+            if (opstate == false) {
+
+
+                //update numplaceholder
+                //if placeholder is empty set it to new value
+                if (numplaceholder === '0') {
+                    numplaceholder = this.id[0]
+                } else {
+                    // if placeholder has value, append new value to end of placeholder
+                    numplaceholder += this.id[0]
+                }
+
+                numA = numplaceholder
+            } else {
+
+
+
+                //update numplaceholder
+                //if placeholder is empty set it to new value
+                if (numplaceholder === '0') {
+                    numplaceholder = this.id[0]
+                } else {
+                    // if placeholder has value, append new value to end of placeholder
+                    numplaceholder += this.id[0]
+                }
+
+                numB = numplaceholder
+            }
+
+
+            // a better console log :D
+            display1.innerHTML = numplaceholder + '///' + numA + op + numB + '///' + solution
+            break;
+    }
 }
 
 function num() {
@@ -66,8 +132,17 @@ function operator() {
 
 }
 
+
 // calculate inputs/expression to display 2 
-function calculate() {
+function calculate(op) {
+    switch (op) {
+        case value:
+
+            break;
+
+        default:
+            break;
+    }
 
 }
 
@@ -104,8 +179,9 @@ function renderCalc() {
             // make display rows
             for (let j = 0; j < 2; j++) {
                 let display = document.createElement("div");
-                containerDisplay.id = "display" + j;
-                containerDisplay.className = "row";
+                display.id = "display" + j;
+                display.className = "row";
+                display.innerHTML = "test";
 
                 //append to parent
                 containerDisplay.appendChild(display)
@@ -122,15 +198,15 @@ function renderCalc() {
             //create nums container
             let containerNums = document.createElement("div")
             containerNums.id = "";
-            containerNums.className = "container";
+            containerNums.className = "row justify-content-center"
 
             // create nums btns
             for (var j = 7; 0 < j; j -= 3) {
                 for (let k = 0; k < 3; k++) {
                     let num = document.createElement("div")
-                    num.id =  (j + k) + "num";
-                    num.className = "col-3 border btn-primary";
-                    num.innerHTML = j+k;
+                    num.id = (j + k) + "num";
+                    num.className = "col-4 border btn-primary";
+                    num.innerHTML = j + k;
                     num.addEventListener("click", checkbtn)
 
                     // append to parent
@@ -142,7 +218,7 @@ function renderCalc() {
             // add last btn for 0
             let num = document.createElement("div")
             num.id = "0num";
-            num.className = "col border btn-primary";
+            num.className = "col-12 border btn-primary";
             num.innerHTML = '0'
             num.addEventListener("click", checkbtn)
 
@@ -156,14 +232,14 @@ function renderCalc() {
             //create operators/misc container
             let containerOpMisc = document.createElement("div")
             containerOpMisc.id = "";
-            containerOpMisc.className = "container";
+            containerOpMisc.className = "row justify-content-center ";
 
             // create OpMisc btns
             let idlist = ['c', '(-)', '*', '/', '+', '-', '.', '=']
             for (var j = 0; j < 8; j++) {
                 let OpMisc = document.createElement("div")
                 OpMisc.id = idlist[j]
-                OpMisc.className = "col-2 border btn-primary";
+                OpMisc.className = "col-6 border btn-primary";
                 OpMisc.innerHTML = idlist[j]
                 OpMisc.addEventListener("click", checkbtn)
 
@@ -186,29 +262,9 @@ function renderCalc() {
     containerfluid.appendChild(containerRow);
     divApp.appendChild(containerfluid);
 
-    //test display rows
-    let outputDisplay = document.getElementById("display0");
-    outputDisplay.innerHTML = "test";
-
-    let inputDisplay = document.getElementById("display1");
-    inputDisplay.innerHTML = "test";
 }
 
-
-// create all number input buttons 
-function createNumBtns() {
-
-}
-
-// create all operator input buttons 
-function createOpBtns() {
-
-}
-
-// create all misc input buttons
-function createMiscBtns() {
-
-}
+/*-------------------------------- Full Functions ------------------------------------------------------------- */
 
 function init() {
     renderCalc();
