@@ -9,13 +9,26 @@ container
                 row form/textbox
             row - input display
                 row form/textbox
-            row - onclick/btn row 1 - 7, 8 , 9, c +/- 
-                col - 7
-                col - 8 
-                col - 9
-                col - c
-                col - +/-
-            row - onclick/btn row 2 - 4, 5, 6, *. /
+            row -
+                container - nums
+                    row - 7 8 9 
+                        col 7
+                        col 8
+                        col 9
+                    row - 4 5 6
+                        col 4
+                        col 5
+                        col 6 
+                    row - 1 2 3
+                        col 1
+                        col 2
+                        col 3
+                    row 0
+                        col 0
+                container misc1
+                    row c +/-
+                        col c
+                        col +/- - onclick/btn row 2 - 4, 5, 6, *. /
                 col - 4
                 col - 5
                 col - 6
@@ -41,11 +54,20 @@ const divApp = document.getElementById('App')
 
 /*---------------------------- L O G I C -----------------------------------------*/
 
+function checkbtn() {
+
+}
+
+function num() {
+
+}
+
 function operator() {
 
 }
+
 // calculate inputs/expression to display 2 
-function calc() {
+function calculate() {
 
 }
 
@@ -57,7 +79,7 @@ function renderCalc() {
     //container and container row and column
     let containerfluid = document.createElement("div");
     containerfluid.id = "";
-    containerfluid.className = "container-fluid";
+    containerfluid.className = "container-fluid bg-light";
 
     let containerRow = document.createElement("div");
     containerRow.id = "";
@@ -65,56 +87,98 @@ function renderCalc() {
 
     let containerCol = document.createElement("div");
     containerCol.id = "";
-    containerCol.className = "";
+    containerCol.className = "col";
 
-    //create calculator rows to populate with buttons
-    for (let i = 0; i < 7; i++) {
+    //create 2 calculator rows for display, numpad, operators, misc populators
+    for (let i = 0; i < 2; i++) {
         let calcRow = document.createElement("div");
-        calcRow.id = "calcRow"+i;
+        calcRow.id = "calcRow" + i;
         calcRow.className = "row justify-content-center";
 
-        console.log(i)
-        // populate each row with respective elements (forms, btns)
-        if (i < 2) {
-            //make 2 rows of form, one enter, one no enter 
+        //display container
+        if (i < 1) {
+            let containerDisplay = document.createElement("div");
+            containerDisplay.id = "";
+            containerDisplay.className = "container";
+
+            // make display rows
             for (let j = 0; j < 2; j++) {
-                let formRow = document.createElement("div");
-                formRow.id = "form" + j;
-                formRow.className = "";
-                //BOARD TESTING
-                formRow.innerHTML = ""
+                let display = document.createElement("div");
+                containerDisplay.id = "display" + j;
+                containerDisplay.className = "row";
 
-                calcRow.appendChild(formRow);
-            
+                //append to parent
+                containerDisplay.appendChild(display)
+            }
+            //append to parent
+            calcRow.appendChild(containerDisplay)
+
+            // Btn big container
+        } else if (i < 2) {
+            let containerBtns = document.createElement("div")
+            containerBtns.id = "";
+            containerBtns.className = "container";
+
+            //create nums container
+            let containerNums = document.createElement("div")
+            containerNums.id = "";
+            containerNums.className = "container";
+
+            // create nums btns
+            for (var j = 7; 0 < j; j -= 3) {
+                for (let k = 0; k < 3; k++) {
+                    let num = document.createElement("div")
+                    num.id =  (j + k) + "num";
+                    num.className = "col-3 border btn-primary";
+                    num.innerHTML = j+k;
+                    num.addEventListener("click", checkbtn)
+
+                    // append to parent
+                    containerNums.appendChild(num)
+                }
+
             }
 
-        } else if (1 < i && i < 6) {
-            //make 5 col for each new row to make divs for btns
-            for (let j = 0; j < 5; j++) {
-                let btnCol = document.createElement('div');
-                btnCol.id = "btn" + j;
-                btnCol.className = "col border btn-primary";
-                //BOARD TESTING
-                btnCol.innerHTML = "test"
+            // add last btn for 0
+            let num = document.createElement("div")
+            num.id = "0num";
+            num.className = "col border btn-primary";
+            num.innerHTML = '0'
+            num.addEventListener("click", checkbtn)
 
-                calcRow.appendChild(btnCol);
-                
+
+            // append to parent
+            containerNums.appendChild(num)
+
+            // append to parent 
+            containerBtns.appendChild(containerNums)
+
+            //create operators/misc container
+            let containerOpMisc = document.createElement("div")
+            containerOpMisc.id = "";
+            containerOpMisc.className = "container";
+
+            // create OpMisc btns
+            let idlist = ['c', '(-)', '*', '/', '+', '-', '.', '=']
+            for (var j = 0; j < 8; j++) {
+                let OpMisc = document.createElement("div")
+                OpMisc.id = idlist[j]
+                OpMisc.className = "col-2 border btn-primary";
+                OpMisc.innerHTML = idlist[j]
+                OpMisc.addEventListener("click", checkbtn)
+
+                // append to parent
+                containerOpMisc.appendChild(OpMisc)
             }
 
-        } else if (i == 6) {
-            //on last row only 3 divs, 
-            for (let j = 4; j < 7; j++) {
-                let btnCol = document.createElement('div');
-                btnCol.id = "btn" + j;
-                btnCol.className = "col border btn-primary";
-                //BOARD TESTING
-                btnCol.innerHTML = "test"
+            // append to parent
+            containerBtns.appendChild(containerOpMisc)
 
-                calcRow.appendChild(btnCol);
-            }
+            // append to parent
+            calcRow.appendChild(containerBtns)
         }
-        containerCol.appendChild(calcRow)
 
+        containerCol.appendChild(calcRow)
     }
 
     // append everything to divapp
@@ -123,48 +187,17 @@ function renderCalc() {
     divApp.appendChild(containerfluid);
 
     //test display rows
-    let outputDisplay = document.getElementById("calcRow1");
+    let outputDisplay = document.getElementById("display0");
     outputDisplay.innerHTML = "test";
 
-    let inputDisplay = document.getElementById("calcRow2");
+    let inputDisplay = document.getElementById("display1");
     inputDisplay.innerHTML = "test";
 }
 
+
 // create all number input buttons 
 function createNumBtns() {
-   /* 
-    //initialize all number divs
-    let num1 = document.getElementById();
-    let num2 = document.getElementById();
-    let num3 = document.getElementById();
-    let num4 = document.getElementById();
-    let num5 = document.getElementById();
-    let num6 = document.getElementById();
-    let num7 = document.getElementById();
-    let num8 = document.getElementById();
-    let num9 = document.getElementById();
-    
-    // add onlick event to all numbers
-    let nums = "0123456789"
-    let numarray = [num0, num1, num2, num3, num4, num5, num6, num7, num8, num9];
-    for (let i = 0; i < 9; i++){
-        let num0 = document.getElementById();
-        .addEventListener('click',);
-        numarray[0].innerHTML = "";
-        .addEventListener('click', calc);
 
-
-        // for i < x 
-            //make new unique
-            
-
-    }
-*/
-
-
-
-// loop
-    // let var+i
 }
 
 // create all operator input buttons 
