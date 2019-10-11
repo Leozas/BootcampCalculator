@@ -1,51 +1,225 @@
 //structure = var, then defined func, then overall func
 
 
-/*
-container
-    row 
-        col - calculator column 
-            row - output display
-                row form/textbox
-            row - input display
-                row form/textbox
-            row - onclick/btn row 1 - 7, 8 , 9, c +/- 
-                col - 7
-                col - 8 
-                col - 9
-                col - c
-                co; - +/-
-            row - onclick/btn row 2 - 4, 5, 6, *. /
-                col - 4
-                col - 5
-                col - 6
-                col - *
-                col - /
-            row - onclick/btn row 3 - 1, 2, 3, +, -
-                col - 1 
-                col - 2
-                col - 3
-                col - +
-                col - -
-            row - onclick/btn row 4 0, ., =
-                col - 0
-                col - .
-                col - =
-
-                */
-
 /*----------------------------- GLOBALS ------------------------- */
 // divApp initialization
-const divApp = document.getElementById('App')
+const divApp = document.getElementById('App');
 
+let numplaceholder = '0';
+
+//numa initialization, used to determine first number to operate on in calculations
+let numA = '0';
+
+//numb initialization
+let numB = '0';
+
+//if operand has been defined, set op state to true so that we more from num a to num b
+let opstate = false
+
+let op = ''
+//operand type
+let optype = { '+': function (a, b) { return a + b }, '-': function (a, b) { return a - b }, '/': function (a, b) { return a * b }, '\xF7': function (a, b) { return a / b } };
+
+// eval state, if equals sign is clicked, eval, if a 2nd op is clicked, eval
+let evalstate = false
+
+let solution = 'nosolyet'
 
 /*---------------------------- L O G I C -----------------------------------------*/
+
+//check what button then once determining, execute desired outcome of button press
+function checkbtn() {
+    switch (this.id[0]) {
+        case "+":
+            if(opstate == false){
+                numplaceholder = '0';
+                op = '+';
+                opstate = true;
+
+
+                if (numA != '0' && numB != '0') {
+                    calculate(op);
+                }
+
+                display1.innerHTML = numA + ' ' + op + ' ' + numB
+
+                display0.innerHTML = solution
+
+            }
+            break;
+
+        case "-":
+                if(opstate == false){
+                    numplaceholder = '0'
+                    op = '-';
+                    opstate = true
+    
+    
+                    if (numA != '0' && numB != '0') {
+                        calculate(op);
+                    }
+    
+                    display1.innerHTML = numA + ' ' + op + ' ' + numB
+    
+                    display0.innerHTML = solution
+    
+                }
+            break;
+
+        case "*":
+                if(opstate == false){
+                    numplaceholder = '0'
+                    op = '*';
+                    opstate = true
+    
+    
+                    if (numA != '0' && numB != '0') {
+                        calculate(op);
+                    }
+    
+                    display1.innerHTML = numA + ' ' + op + ' ' + numB
+    
+                    display0.innerHTML = solution
+    
+                }
+            break;
+
+
+        case "/":
+                if(opstate == false){
+                    numplaceholder = '0'
+                    op = '/';
+                    opstate = true
+    
+    
+                    if (numA != '0' && numB != '0') {
+                        calculate(op);
+                    }
+    
+                    display1.innerHTML = numA + ' ' + op + ' ' + numB
+    
+                    display0.innerHTML = solution
+    
+                }
+            break;
+
+        case "=":
+
+            if (numA != '0' && numB != '0') {
+                calculate(op);
+            }
+
+            display1.innerHTML = numA + ' ' + op + ' ' + numB
+
+            display0.innerHTML = solution
+
+            break;
+
+        case "c":
+            numplaceholder = '0'
+            numA = '0'
+            numB = '0'
+            solution = '0'
+            opstate = false
+            op = ''
+
+            display1.innerHTML = numA + ' ' + op + ' ' + numB
+
+            display0.innerHTML = solution
+
+            break;
+
+        case ".":
+            if (numplaceholder.includes('.') == false) {
+                numplaceholder = numplaceholder + '.'
+            }
+
+            display1.innerHTML = numA + ' ' + op + ' ' + numB
+
+            display0.innerHTML = solution
+
+
+            break;
+
+        case '(':
+
+            if (numplaceholder.includes('-') == false) {
+                numplaceholder = '-' + numplaceholder
+            }
+
+            display1.innerHTML = numA + ' ' + op + ' ' + numB
+
+            display0.innerHTML = solution
+
+
+            break;
+
+        default:
+
+
+            if (opstate == false) {
+
+
+                //update numplaceholder
+                //if placeholder is empty set it to new value
+                if (numplaceholder === '0') {
+                    numplaceholder = this.id[0]
+                } else {
+                    // if placeholder has value, append new value to end of placeholder
+                    numplaceholder += this.id[0]
+                }
+
+                numA = numplaceholder
+            } else {
+
+
+
+                //update numplaceholder
+                //if placeholder is empty set it to new value
+                if (numplaceholder === '0') {
+                    numplaceholder = this.id[0]
+                } else {
+                    // if placeholder has value, append new value to end of placeholder
+                    numplaceholder += this.id[0]
+                }
+
+                numB = numplaceholder
+            }
+
+
+            // a better console log :D
+            display1.innerHTML = numA + ' ' + op + ' ' + numB
+
+            display0.innerHTML = solution
+    }
+}
+
+function num() {
+
+}
 
 function operator() {
 
 }
+
+
 // calculate inputs/expression to display 2 
-function calculate() {
+function calculate(op) {
+
+    if (opstate == true && numA != '0' && numB != '0' && op){
+        if (op == '+'){
+            solution = (Number(numA) + Number(numB))
+        } else if ( op == '-'){
+            solution = (Number(numA) - Number(numB))
+
+        } else if ( op == '*'){
+            solution = (Number(numA) * Number(numB))
+
+        } else if ( op == '/'){
+            solution = (Number(numA) / Number(numB))
+
+        }
+    }
 
 }
 
@@ -57,7 +231,7 @@ function renderCalc() {
     //container and container row and column
     let containerfluid = document.createElement("div");
     containerfluid.id = "";
-    containerfluid.className = "container-fluid";
+    containerfluid.className = "container-fluid bg-light";
 
     let containerRow = document.createElement("div");
     containerRow.id = "";
@@ -65,56 +239,99 @@ function renderCalc() {
 
     let containerCol = document.createElement("div");
     containerCol.id = "";
-    containerCol.className = "";
+    containerCol.className = "col";
 
-    //create calculator rows to populate with buttons
-    for (let i = 0; i < 7; i++) {
+    //create 2 calculator rows for display, numpad, operators, misc populators
+    for (let i = 0; i < 2; i++) {
         let calcRow = document.createElement("div");
-        calcRow.id = "calcRow"+i;
+        calcRow.id = "calcRow" + i;
         calcRow.className = "row justify-content-center";
 
-        console.log(i)
-        // populate each row with respective elements (forms, btns)
-        if (i < 2) {
-            //make 2 rows of form, one enter, one no enter 
+        //display container
+        if (i < 1) {
+            let containerDisplay = document.createElement("div");
+            containerDisplay.id = "";
+            containerDisplay.className = "container";
+
+            // make display rows
             for (let j = 0; j < 2; j++) {
-                let formRow = document.createElement("div");
-                formRow.id = "form" + j;
-                formRow.className = "";
-                //BOARD TESTING
-                formRow.innerHTML = ""
+                let display = document.createElement("div");
+                display.id = "display" + j;
+                display.className = "row";
+                display.innerHTML = "0";
 
-                calcRow.appendChild(formRow);
-            
+                //append to parent
+                containerDisplay.appendChild(display)
+            }
+            //append to parent
+            calcRow.appendChild(containerDisplay)
+
+            // Btn big container
+        } else if (i < 2) {
+            let containerBtns = document.createElement("div")
+            containerBtns.id = "";
+            containerBtns.className = "container";
+
+            //create nums container
+            let containerNums = document.createElement("div")
+            containerNums.id = "";
+            containerNums.className = "row justify-content-center"
+
+            // create nums btns
+            for (var j = 7; 0 < j; j -= 3) {
+                for (let k = 0; k < 3; k++) {
+                    let num = document.createElement("div")
+                    num.id = (j + k) + "num";
+                    num.className = "col-4 border btn-primary";
+                    num.innerHTML = j + k;
+                    num.addEventListener("click", checkbtn)
+
+                    // append to parent
+                    containerNums.appendChild(num)
+                }
+
             }
 
-        } else if (1 < i && i < 6) {
-            //make 5 col for each new row to make divs for btns
-            for (let j = 0; j < 5; j++) {
-                let btnCol = document.createElement('div');
-                btnCol.id = "btn" + j;
-                btnCol.className = "col border btn-primary";
-                //BOARD TESTING
-                btnCol.innerHTML = "test"
+            // add last btn for 0
+            let num = document.createElement("div")
+            num.id = "0num";
+            num.className = "col-12 border btn-primary";
+            num.innerHTML = '0'
+            num.addEventListener("click", checkbtn)
 
-                calcRow.appendChild(btnCol);
-                
+
+            // append to parent
+            containerNums.appendChild(num)
+
+            // append to parent 
+            containerBtns.appendChild(containerNums)
+
+            //create operators/misc container
+            let containerOpMisc = document.createElement("div")
+            containerOpMisc.id = "";
+            containerOpMisc.className = "row justify-content-center ";
+
+            // create OpMisc btns
+            let idlist = ['c', '(-)', '*', '/', '+', '-', '.', '=']
+            for (var j = 0; j < 8; j++) {
+                let OpMisc = document.createElement("div")
+                OpMisc.id = idlist[j]
+                OpMisc.className = "col-6 border btn-primary";
+                OpMisc.innerHTML = idlist[j]
+                OpMisc.addEventListener("click", checkbtn)
+
+                // append to parent
+                containerOpMisc.appendChild(OpMisc)
             }
 
-        } else if (i == 6) {
-            //on last row only 3 divs, 
-            for (let j = 4; j < 7; j++) {
-                let btnCol = document.createElement('div');
-                btnCol.id = "btn" + j;
-                btnCol.className = "col border btn-primary";
-                //BOARD TESTING
-                btnCol.innerHTML = "test"
+            // append to parent
+            containerBtns.appendChild(containerOpMisc)
 
-                calcRow.appendChild(btnCol);
-            }
+            // append to parent
+            calcRow.appendChild(containerBtns)
         }
-        containerCol.appendChild(calcRow)
 
+        containerCol.appendChild(calcRow)
     }
 
     // append everything to divapp
@@ -122,34 +339,9 @@ function renderCalc() {
     containerfluid.appendChild(containerRow);
     divApp.appendChild(containerfluid);
 
-    //test display rows
-    let outputDisplay = document.getElementById("calcRow1");
-    outputDisplay.innerHTML = "test";
-
-    let inputDisplay = document.getElementById("calcRow2");
-    inputDisplay.innerHTML = "test";
 }
 
-// create all number input buttons 
-function createNumBtns() {
-    
-    let num0 = getElementById();
-    .innerHTML = "";
-    .addEventListener('click',)
-
-
-    
-}
-
-// create all operator input buttons 
-function createOpBtns() {
-
-}
-
-// create all misc input buttons
-function createMiscBtns() {
-
-}
+/*-------------------------------- Full Functions ------------------------------------------------------------- */
 
 function init() {
     renderCalc();
