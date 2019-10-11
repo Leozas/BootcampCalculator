@@ -31,34 +31,87 @@ let solution = 'nosolyet'
 function checkbtn() {
     switch (this.id[0]) {
         case "+":
-            numplaceholder = '0'
-            op = '+';
-            opstate = true
+            if(opstate == false){
+                numplaceholder = '0';
+                op = '+';
+                opstate = true;
 
 
+                if (numA != '0' && numB != '0') {
+                    calculate(op);
+                }
+
+                display1.innerHTML = numA + ' ' + op + ' ' + numB
+
+                display0.innerHTML = solution
+
+            }
             break;
 
         case "-":
-                numplaceholder = '0'
-                op = '-';
-                opstate = true
-
+                if(opstate == false){
+                    numplaceholder = '0'
+                    op = '-';
+                    opstate = true
+    
+    
+                    if (numA != '0' && numB != '0') {
+                        calculate(op);
+                    }
+    
+                    display1.innerHTML = numA + ' ' + op + ' ' + numB
+    
+                    display0.innerHTML = solution
+    
+                }
             break;
 
         case "*":
-                numplaceholder = '0'
-                op = '*';
-                opstate = true
+                if(opstate == false){
+                    numplaceholder = '0'
+                    op = '*';
+                    opstate = true
+    
+    
+                    if (numA != '0' && numB != '0') {
+                        calculate(op);
+                    }
+    
+                    display1.innerHTML = numA + ' ' + op + ' ' + numB
+    
+                    display0.innerHTML = solution
+    
+                }
             break;
-            
+
 
         case "/":
-                numplaceholder = '0'
-                op = '/';
-                opstate = true
+                if(opstate == false){
+                    numplaceholder = '0'
+                    op = '/';
+                    opstate = true
+    
+    
+                    if (numA != '0' && numB != '0') {
+                        calculate(op);
+                    }
+    
+                    display1.innerHTML = numA + ' ' + op + ' ' + numB
+    
+                    display0.innerHTML = solution
+    
+                }
             break;
 
         case "=":
+
+            if (numA != '0' && numB != '0') {
+                calculate(op);
+            }
+
+            display1.innerHTML = numA + ' ' + op + ' ' + numB
+
+            display0.innerHTML = solution
 
             break;
 
@@ -66,22 +119,38 @@ function checkbtn() {
             numplaceholder = '0'
             numA = '0'
             numB = '0'
-            solution = ''
+            solution = '0'
+            opstate = false
+            op = ''
 
+            display1.innerHTML = numA + ' ' + op + ' ' + numB
+
+            display0.innerHTML = solution
 
             break;
 
         case ".":
-            if (numplaceholder.includes('.') == false){
-                numplaceholder = numplaceholder+'.'
+            if (numplaceholder.includes('.') == false) {
+                numplaceholder = numplaceholder + '.'
             }
 
-            display1.innerHTML = numplaceholder + '///' + numA + op + numB + '///' + solution
+            display1.innerHTML = numA + ' ' + op + ' ' + numB
+
+            display0.innerHTML = solution
 
 
             break;
 
         case '(':
+
+            if (numplaceholder.includes('-') == false) {
+                numplaceholder = '-' + numplaceholder
+            }
+
+            display1.innerHTML = numA + ' ' + op + ' ' + numB
+
+            display0.innerHTML = solution
+
 
             break;
 
@@ -119,8 +188,9 @@ function checkbtn() {
 
 
             // a better console log :D
-            display1.innerHTML = numplaceholder + '///' + numA + op + numB + '///' + solution
-            break;
+            display1.innerHTML = numA + ' ' + op + ' ' + numB
+
+            display0.innerHTML = solution
     }
 }
 
@@ -135,13 +205,20 @@ function operator() {
 
 // calculate inputs/expression to display 2 
 function calculate(op) {
-    switch (op) {
-        case value:
 
-            break;
+    if (opstate == true && numA != '0' && numB != '0' && op){
+        if (op == '+'){
+            solution = (Number(numA) + Number(numB))
+        } else if ( op == '-'){
+            solution = (Number(numA) - Number(numB))
 
-        default:
-            break;
+        } else if ( op == '*'){
+            solution = (Number(numA) * Number(numB))
+
+        } else if ( op == '/'){
+            solution = (Number(numA) / Number(numB))
+
+        }
     }
 
 }
@@ -181,7 +258,7 @@ function renderCalc() {
                 let display = document.createElement("div");
                 display.id = "display" + j;
                 display.className = "row";
-                display.innerHTML = "test";
+                display.innerHTML = "0";
 
                 //append to parent
                 containerDisplay.appendChild(display)
