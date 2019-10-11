@@ -23,7 +23,7 @@ let optype = { '+': function (a, b) { return a + b }, '-': function (a, b) { ret
 // eval state, if equals sign is clicked, eval, if a 2nd op is clicked, eval
 let evalstate = false
 
-let solution = 'nosolyet'
+let solution = '0'
 
 /*---------------------------- L O G I C -----------------------------------------*/
 
